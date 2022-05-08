@@ -19,7 +19,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(
-            url: "git@github.com:keiji0/swift-app-tools.git",
+            url: "https://github.com/keiji0/swift-app-tools",
             branch: "main"
         ),
     ],
