@@ -65,7 +65,7 @@ final class Storage : NestedTrasactionable {
     
     // MARK: - NestedTrasactionable
     
-    var transactionNestLevel: Int = 1
+    var transactionNestLevel: Int = 0
     
     func commit() throws {
         if context.hasChanges {

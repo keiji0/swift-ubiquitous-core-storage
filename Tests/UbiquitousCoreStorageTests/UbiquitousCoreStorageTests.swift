@@ -18,10 +18,11 @@ final class UbiquitousCoreStorageTests: XCTestCase {
     }()
     
     override func setUp() async throws {
+        try container.loadPersistent()
+        try container.dataReset()
     }
     
     override func tearDown() async throws {
-        try! container.dataReset()
     }
     
     func test_値を設定することができる() {
