@@ -12,7 +12,7 @@ import CoreData
 import os
 
 /// UbiquitousStorageのストレージ
-final class Storage : NestedTrasactionable {
+final class Storage : Trasactionable {
     
     // MARK: - Internal
     
@@ -44,9 +44,26 @@ final class Storage : NestedTrasactionable {
         }
     }
     
+    // MARK: - Trasactionable
+    
+    func begin(_ block: () throws -> Void) throws {
+        transactionNestLevel += 1
+        defer { transactionNestLevel -= 1 }
+        do {
+            try block()
+            if transactionNestLevel == 1 {
+                try commit()
+            }
+        } catch let e {
+            context.rollback()
+            throw e
+        }
+    }
+    
     // MARK: - Private;
     
     private let context: NSManagedObjectContext
+    private var transactionNestLevel: Int = 0
     
     private func getConfigures(_ key: String) -> [ConfigureMO] {
         let request: NSFetchRequest<ConfigureMO> = ConfigureMO.fetchRequest()
@@ -63,11 +80,7 @@ final class Storage : NestedTrasactionable {
         return try! context.fetch(request).first
     }
     
-    // MARK: - NestedTrasactionable
-    
-    var transactionNestLevel: Int = 0
-    
-    func commit() throws {
+    private func commit() throws {
         if context.hasChanges {
             try context.save()
         }
