@@ -24,7 +24,7 @@ public final class UbiquitousCoreStorage : UbiquitousStorage {
     /// - Parameters:
     ///   - device: 生成元のデバイス
     ///   - context: NSManagedObjectContextを渡す
-    public init(_ device: Device, _ context: NSManagedObjectContext) {
+    public init(_ device: some Device, _ context: NSManagedObjectContext) {
         self.storage = Storage(context)
         self.device = device
         self.encoder = JSONEncoder()
@@ -61,7 +61,7 @@ public final class UbiquitousCoreStorage : UbiquitousStorage {
     // MARK: - Private
     
     private let storage: Storage
-    private let device: Device
+    private let device: any Device
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
     
