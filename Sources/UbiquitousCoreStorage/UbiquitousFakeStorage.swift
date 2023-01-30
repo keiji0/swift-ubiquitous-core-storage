@@ -17,6 +17,9 @@ public final class UbiquitousFakeStorageProvider {
     fileprivate var allStore = [UbiquitousStorageKey.Key: Data]()
     fileprivate var deviceStorages = [UUID: UbiquitousFakeStorage]()
     
+    public init() {
+    }
+    
     public func storage(device: some Device) -> some UbiquitousStorage {
         if let deviceStorage  = deviceStorages[device.id] {
             return deviceStorage
